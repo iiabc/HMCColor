@@ -465,7 +465,11 @@ class ColorHelpers {
         return gradients.map { org.bukkit.Color.fromRGB(it.red.coerceIn(0, 255), it.green.coerceIn(0, 255), it.blue.coerceIn(0, 255)) }
     }
 
-    internal val defaultItem by lazy { hmcColor.config.buttons.item.toItemStackOrNull() ?: ItemStack(Material.LEATHER_HORSE_ARMOR) }
+    internal val defaultItem by lazy {
+        val craftId = hmcColor.config.buttons.craftEngineItem
+        val craftItem = craftId?.let { id -> id.takeIf { it.isNotBlank() }?.let { it.craftEngineItem() } }
+        craftItem ?: hmcColor.config.buttons.item.toItemStackOrNull() ?: ItemStack(Material.LEATHER_HORSE_ARMOR)
+    }
 
 }
 

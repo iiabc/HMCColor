@@ -16,6 +16,7 @@ repositories {
     maven("https://mvn.lumine.io/repository/maven-public/") { metadataSources { artifact() } }// MythicMobs
     maven("https://jitpack.io")
     maven("https://repo.nexomc.com/releases")
+    maven("https://repo.momirealms.net/releases/")
     maven("https://repo.mineinabyss.com/releases")
     maven("https://repo.mineinabyss.com/snapshots")
     maven("https://repo.triumphteam.dev/snapshots")
@@ -33,6 +34,10 @@ dependencies {
     compileOnly("io.lumine:Mythic-Dist:5.9.5")
     compileOnly("io.lumine:MythicCrucible:2.2.0-SNAPSHOT")
     compileOnly("com.mineinabyss:geary-papermc:0.32.6")
+
+    // CraftEngine
+    compileOnly("net.momirealms:craft-engine-core:0.0.49")
+    compileOnly("net.momirealms:craft-engine-bukkit:0.0.49")
 
     compileOnly("com.mineinabyss:idofront-di:$idofrontVersion")
     compileOnly("com.mineinabyss:idofront-config:$idofrontVersion")

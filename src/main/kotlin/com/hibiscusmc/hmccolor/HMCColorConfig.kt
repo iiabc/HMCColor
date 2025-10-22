@@ -65,11 +65,15 @@ data class HMCColorConfig(
             "nexoItem: paintbrush",
             "crucibleItem: something",
             "itemsadderItem: hmccosmetics:paintbrush",
+            "craftEngineItem: namespace:paintbrush",
             "prefab: namespace:something"
         )
         val item: SerializableItemStack = ItemStack(Material.LEATHER_HORSE_ARMOR).editItemMeta<LeatherArmorMeta> {
             this.setCustomModelData(1)
         }.toSerializable(),
+        @EncodeDefault(EncodeDefault.Mode.NEVER)
+        @YamlComment("Optional CraftEngine custom item id, e.g. 'namespace:paintbrush'")
+        val craftEngineItem: String? = null,
         val inputSlot: Int = 10,
         val outputSlot: Int = 16,
         val baseColorGrid: BaseColorGrid = BaseColorGrid(),
@@ -83,6 +87,7 @@ data class HMCColorConfig(
         val nexoItems: List<String> = listOf("banned_nexo_id"),
         val crucibleItems: List<String> = listOf("banned_crucible_id"),
         val itemsadderItems: List<String> = listOf("banned_itemsadder_id"),
+        val craftEngineItems: List<String> = listOf("banned_namespace:paintbrush"),
         val gearyItems: List<String> = listOf("banned_geary_id"),
         val types: List<@Serializable(MaterialByNameSerializer::class) Material> = listOf(Material.LEATHER_CHESTPLATE)
     )

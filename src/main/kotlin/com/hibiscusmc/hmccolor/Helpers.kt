@@ -11,6 +11,8 @@ import com.mineinabyss.idofront.plugin.Plugins
 import com.nexomc.nexo.api.NexoItems
 import dev.lone.itemsadder.api.CustomStack
 import io.lumine.mythiccrucible.MythicCrucible
+import net.momirealms.craftengine.bukkit.api.CraftEngineItems
+import net.momirealms.craftengine.core.util.Key
 import org.bukkit.inventory.ItemStack
 
 fun ItemStack.isNexoItem() = Plugins.isEnabled("Nexo") && NexoItems.exists(this)
@@ -28,6 +30,11 @@ fun ItemStack.itemsAdderID() = if (Plugins.isEnabled("ItemsAdder")) CustomStack.
 fun String.isItemsAdderItem() = Plugins.isEnabled("ItemsAdder") && CustomStack.isInRegistry(this)
 fun String.itemsAdderItem() = if (Plugins.isEnabled("ItemsAdder")) CustomStack.getInstance(this)?.itemStack else null
 
+fun ItemStack.isCraftEngineItem() = Plugins.isEnabled("CraftEngine") && CraftEngineItems.isCustomItem(this)
+fun ItemStack.craftEngineID(): String? = if (Plugins.isEnabled("CraftEngine")) CraftEngineItems.getCustomItemId(this)?.toString() else null
+fun String.isCraftEngineItem() = Plugins.isEnabled("CraftEngine") && runCatching { CraftEngineItems.byId(Key.of(this)) != null }.getOrDefault(false)
+fun String.craftEngineItem(): ItemStack? = if (Plugins.isEnabled("CraftEngine")) CraftEngineItems.byId(Key.of(this))?.buildItemStack() else null
+
 val gearyItems get() = gearyPaper.worldManager.global.getAddon(ItemTracking)
 val globalGeary get() = gearyPaper.worldManager.global
 fun ItemStack.isGearyItem() = Plugins.isEnabled("Geary") && with(gearyPaper.worldManager.global) { this@isGearyItem.itemMeta?.persistentDataContainer?.decodePrefabs()?.firstOrNull()?.let { gearyItems.createItem(it) != null } ?: false }
@@ -42,6 +49,7 @@ fun ItemStack.isDyeable(): Boolean {
         this.isNexoItem() -> this.nexoID() !in blacklist.nexoItems
         this.isCrucibleItem() -> this.crucibleID() !in blacklist.crucibleItems
         this.isItemsAdderItem() -> this.itemsAdderID() !in blacklist.itemsadderItems
+        this.isCraftEngineItem() -> this.craftEngineID() !in blacklist.craftEngineItems
         this.isGearyItem() -> this.gearyID() !in blacklist.gearyItems
         else -> type !in blacklist.types
     }
